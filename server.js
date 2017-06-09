@@ -3,7 +3,7 @@ var app = express();
 var hostname = '127.0.0.1',
     port = 8090;
 require('./routes')(app), // database setup for mongo, need a setup script
-  mongoose = require('mongoose');
+    mongoose = require('mongoose');
 //    mongoUrl = 'mongodb://localhost/clocks';
 
 /*

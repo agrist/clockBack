@@ -17,7 +17,7 @@ module.exports = function(app) {
     });
 
     app.get('/hfile', function(req, res){
-      res.send('token');
-    })
+      res.sendFile( __dirname + "/simple.html" );
+    });
 
 };
