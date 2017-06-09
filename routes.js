@@ -15,4 +15,9 @@ module.exports = function(app) {
     app.get('/hello', function(req, res) {
         res.send('Hello User, you are in the green! \n');
     });
+/*
+    app.get('/hfile', function(req, res){
+      res.
+    })
+  */
 };
