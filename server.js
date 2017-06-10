@@ -1,10 +1,10 @@
 var express = require("express");
 var bodyParser = require('body-parser');
 var app = express();
-var multer = require('multer'); 
+var multer = require('multer');
 var upload = multer(); // for parsing multipart/form-data
 var hostname = '127.0.0.1',
-    port = 8090;//remember to change to 80 for QA
+    port = 80;//remember to change to 80 for QA
 require('./routes')(app);
 const pug = require('pug'); // database setup for mysq, need a setup
 
