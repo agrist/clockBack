@@ -30,9 +30,10 @@ module.exports = function(app) {
       //test with single http://80.232.162.149:8000/plus96mp3.m3u -> radio swh
       var radio =
     { alarm_on: true,
-      alarm_true: "11:11",
+      alarm_at: "11:11",
       tone: 'http://80.232.162.149:8000/plus96mp3.m3u'};
       radio.last_modified = new Date().toJSON();//.slice(0,10).replace(/-/g,'/');
+      radio.update_song -?
 
       res.send(        radio      );
     });
@@ -40,7 +41,7 @@ module.exports = function(app) {
       //test with single http://80.232.162.149:8000/plus96mp3.m3u -> radio swh
       var radio =
     { alarm_on: true,
-      alarm_true: "11:11",
+      alarm_at: "11:11",
       tone: 'https://www.youtube.com/watch?v=LkbJ90wwbO8'};
       radio.last_modified = new Date().toJSON();//.slice(0,10).replace(/-/g,'/');
 
