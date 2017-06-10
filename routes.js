@@ -14,6 +14,10 @@ module.exports = function(app) {
   //      app.delete('/user/:id', user.delete);
 
     app.get('/', function(req, res) {
+      res.sendFile(__dirname + "/simple.html");
+    });
+
+    app.get('/hfile', function(req, res) {
         res.send(pug.renderFile('views/index.pug', {
             title: 'Hey DOn',
             message: ' It works key!',
@@ -21,8 +25,10 @@ module.exports = function(app) {
         }));
     });
 
-    app.get('/hfile', function(req, res) {
-        res.sendFile(__dirname + "/simple.html");
+    app.get('/radio', function(req, res){
+      //test with single http://80.232.162.149:8000/plus96mp3.m3u -> radio swh
+      var radio = {};
+      radio.link = 'http://80.232.162.149:8000/plus96mp3.m3u';
+      res.send(        radio      );
     });
-
 };
