@@ -7,8 +7,10 @@ module.exports = function(app) {
     var youtubedl = require('youtube-dl');
     var jsonParser = bodyParser.json();
     var urlParser = bodyParser.urlencoded();
+
+
     app.get('/', function(req, res) {
-        res.sendFile(__dirname + "/views/" + 'index.html');
+        res.sendFile(__dirname  + '/staticFolder/index.html');
     });
 
     app.get('/hfile', function(req, res) { // example for specific file filled template
@@ -30,8 +32,9 @@ module.exports = function(app) {
         var radio = {
             alarm_on: true,
             alarm_at: "11:11",
-            radio: false,
-            tone: 'http://80.232.162.149:8000/plus96mp3.m3u'
+            play_radio: false,
+            radio: 'http://us3.internet-radio.com:8007/listen.pls&t=.pls',
+            tone: 'https://www.youtube.com/watch?v=LkbJ90wwbO8'
         };
         radio.last_modified = new Date().toJSON(); //.slice(0,10).replace(/-/g,'/');
         //    radio.update_song -?
@@ -55,7 +58,6 @@ module.exports = function(app) {
         res.send(jsonContent);
     });
 
-
     app.post('/setyoutube', urlParser, function(req, res) {
         //    console.log(req.query);
         var device = req.query.device || 'def';
@@ -72,34 +74,38 @@ module.exports = function(app) {
             console.log('stderr: ' + stderr);
             if (error !== null) {
                 console.log('exec error: ' + error);
+                res.send(error);
             }
             var content = fs.readFileSync('data.json');
             var jsonContent = JSON.parse(content);
             jsonContent.tone = youtube_link;
             jsonContent.last_modified = new Date().toJSON();
+            jsonContent.id = device;
             var json = JSON.stringify(jsonContent);
             fs.writeFile('data.json', json);
 
         });
 
-        //  var video = youtubedl(youtube_link,
-        // Optional arguments passed to youtube-dl.
-        //       ['--audio-format m4a']
-        // Additional options can be given for calling `child_process.execFile()`.
-        //      );
-
-        // Will be called when the download starts.
-        //    console.log('Device: ' , device);
-        //        video.on('info', function(info) {
-        //            console.log('Download started');
-        //            console.log('filename: ' + info.filename);
-        //            console.log('size: ' + info.size);
-        //        });
-
-        //   video.pipe(fs.createWriteStream('staticFolder/alarmtested.m4a'));
-        //set info to return from some file - temp db replacement
         res.send('all ok');
 
     });
 
+    app.post('/setradio', urlParser, function(req, res) {
+        var device = req.query.device || 'def';
+        var radio = req.query.radio || 'http://us3.internet-radio.com:8007/listen.pls&t=.pls'; //'https://www.youtube.com/watch?v=IH8RVvIHB9E';
+        console.log(youtube_link);
+        console.log(device);
+
+        var content = fs.readFileSync('data.json');
+        var jsonContent = JSON.parse(content);
+        jsonContent.id = device;
+        jsonContent.radio = radio;
+        jsonContent.last_modified = new Date().toJSON();
+        jsonContent.play_radio = true;
+        var json = JSON.stringify(jsonContent);
+        fs.writeFile('data.json', json);
+
+        res.send('all ok');
+
+    });
 };
