@@ -9,9 +9,9 @@ module.exports = function(app) {
     var urlParser = bodyParser.urlencoded();
 
 
-    app.get('/', function(req, res) {
-        res.sendFile(__dirname  + '/staticFolder/index.html');
-    });
+  //  app.get('/', function(req, res) {
+  //      res.sendFile(__dirname  + '/staticFolder/index.html');
+  //  });
 
     app.get('/hfile', function(req, res) { // example for specific file filled template
         res.send(pug.renderFile('views/index.pug', {
@@ -93,9 +93,7 @@ module.exports = function(app) {
     app.post('/setradio', urlParser, function(req, res) {
         var device = req.query.device || 'def';
         var radio = req.query.radio || 'http://us3.internet-radio.com:8007/listen.pls&t=.pls'; //'https://www.youtube.com/watch?v=IH8RVvIHB9E';
-        console.log(youtube_link);
-        console.log(device);
-
+    
         var content = fs.readFileSync('data.json');
         var jsonContent = JSON.parse(content);
         jsonContent.id = device;

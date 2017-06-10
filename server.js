@@ -14,11 +14,10 @@ app.engine('html', require('pug').renderFile);
 app.set('view engine', 'pug');
 
 app.use(express.static('staticFolder')); // static folder for music files
-app.use(express.static('images')); // static folder for music files
-app.use(express.static('css')); // static folder for music files
-//app.use(express.static('views')); // static folder for music files
+
+
 app.use(bodyParser.json()); // for parsing application/json
-//app.use(bodyParser.urlencoded({ extended: false })); // for parsing application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false })); // for parsing application/x-www-form-urlencoded
 
 
 require('./routes')(app);
