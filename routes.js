@@ -59,7 +59,7 @@ module.exports = function(app) {
                     var youtube_link = req.query.link || 'def'; //'https://www.youtube.com/watch?v=IH8RVvIHB9E';
                     console.log(youtube_link);
                     console.log(device);
-                    exec('youtube-dl -o alarm --audio-format m4a ' + youtube_link, function(error, stdout, stderr) {
+                    exec("youtube-dl -o 'staticFolder/alarm.m4a' -f bestaudio --audio-format m4a " + youtube_link, function(error, stdout, stderr) {
                         console.log('stdout: ' + stdout);
                         console.log('stderr: ' + stderr);
                         if (error !== null) {
