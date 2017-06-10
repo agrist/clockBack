@@ -21,14 +21,19 @@ module.exports = function(app) {
         res.send(pug.renderFile('views/index.pug', {
             title: 'Hey DOn',
             message: ' It works key!',
+            item: {a:'abc', b:'before', c:'continue'},
             im: "Cats-ear1-996x1024.jpg"
         }));
     });
 
     app.get('/radio', function(req, res){
       //test with single http://80.232.162.149:8000/plus96mp3.m3u -> radio swh
-      var radio = {};
-      radio.link = 'http://80.232.162.149:8000/plus96mp3.m3u';
+      var radio =
+    { alarm_on: true,
+      alarm_true: "11:11",
+      tone: 'http://80.232.162.149:8000/plus96mp3.m3u'};
+      radio.last_modified = new Date().toJSON();//.slice(0,10).replace(/-/g,'/');
+
       res.send(        radio      );
     });
 };
