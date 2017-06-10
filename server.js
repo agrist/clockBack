@@ -1,7 +1,7 @@
 var express = require("express");
 var app = express();
 var hostname = '127.0.0.1',
-    port = 8090;
+    port = 80;
 require('./routes')(app);
 const pug = require('pug'); // database setup for mysq, need a setup
 
