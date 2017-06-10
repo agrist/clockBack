@@ -40,16 +40,19 @@ module.exports = function(app) {
         });
 
         app.get('/radio2', function(req, res) {
+          var content = fs.readFileSync('data.json');
+           var jsonContent = JSON.parse(content);
+/*
             var radio = {
                 alarm_on: true,
                 alarm_at: "11:11",
                 play_radio: false,
                 radio: 'http://us3.internet-radio.com:8007/listen.pls&t=.pls',
                 tone: 'https://www.youtube.com/watch?v=LkbJ90wwbO8'
-            };
-            radio.last_modified = new Date().toJSON();
+            };*/
+          //  radio.last_modified = new Date().toJSON();
 
-            res.send(radio);
+            res.send(jsonContent);
         });
 
 
@@ -65,7 +68,14 @@ module.exports = function(app) {
                         if (error !== null) {
                             console.log('exec error: ' + error);
                         }
+                        var content = fs.readFileSync('data.json');
+                         var jsonContent = JSON.parse(content);
+                         jsonContent.tone = youtube_link;
+                         jsonContent.last_modified = new Date().toJSON();
+                         var json = JSON.stringify(jsonContent);
+                         fs.writeFile('data.json', json);
                       });
+
                         //  var video = youtubedl(youtube_link,
                         // Optional arguments passed to youtube-dl.
                         //       ['--audio-format m4a']
