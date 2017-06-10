@@ -6,14 +6,14 @@ module.exports = function(app) {
         app.post('/song', song.add);
         app.put('/song/:id', song.update);
         app.delete('/song/:id', song.delete);
+*/
+  //      var device = require('./controllers/device');
+  //      app.get('/device', device.findAll);
+  //      app.post('/device', device.add);
+  //      app.put('/user/:id', user.update);
+  //      app.delete('/user/:id', user.delete);
 
-        var user = require('./controllers/device');
-        app.get('/user', user.findAll);
-        app.post('/user', user.add);
-        app.put('/user/:id', user.update);
-        app.delete('/user/:id', user.delete);
-    */
-    app.get('/hello', function(req, res) {
+    app.get('/', function(req, res) {
         res.send(pug.renderFile('views/index.pug', {
             title: 'Hey DOn',
             message: ' It works key!',
