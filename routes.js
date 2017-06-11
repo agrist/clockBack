@@ -154,7 +154,7 @@ module.exports = function(app) {
         var alarm_at = req.body.alarm_at ? (req.body.alarm_at == jsonContent.alarm_at ? jsonContent.alarm_at : req.body.alarm_at) : jsonContent.alarm_at;
         var alarm_on = req.body.alarm_on ? (req.body.alarm_on == jsonContent.alarm_on ? jsonContent.alarm_on : req.body.alarm_on) : jsonContent.alarm_on;
         var tone = req.body.tone ? (req.body.tone == jsonContent.tone ? jsonContent.tone : req.body.tone) : jsonContent.tone;
-        var play_radio = req.body.play_radio ? (req.body.play_radio == jsonContent.play_radio ? jsonContent.play_radio : req.body.play_radio) : jsonContent.play_radio;
+        var play_radio = req.body.radio_on ? (req.body.radio_on == jsonContent.play_radio ? jsonContent.play_radio : req.body.radio_on) : jsonContent.play_radio;
 
       console.log(device, radio, alarm_on, alarm_at, tone, play_radio);
         if ( req.body.tone && tone != req.body.tone) {
