@@ -5,23 +5,29 @@ html
             include style.css
         title= title
     body
-        h1= message
-        form(method='POST' action='/setall')
-            div.form-group
+        #page
+            h1= message
+            div(class='footer body')
+            #content
+                div(class='content')
+                    div(class='article')
+                        form(method='POST' action='/setall')
+                            div.form-group
 
-              label(for='alarm_at') alarm_at:
-              input#alarm_at.form-control(type='time' name='alarm_at')
+                                label(for='alarm_at') Alarm at       :
+                                input#alarm_at.form-control(type='time' name='alarm_at')
+                                label(for='alarm_on') Activate        :
+                                input#alarm_on.form-control(type='checkbox' name='alarm_on')
 
-              input#alarm_on.form-control(type='checkbox' name='alarm_on')
+                            div.form-group
+                                label(for='type') Multimedia source       :
+                                select( name='type')
+                                    option(value='0') -- Select --
+                                    option(value='youtube') Youtube
+                                    option(value='radio') Radio
 
-            div.form-group
-              select( name='type')
-                option(value='0') -- Select --
-                option(value='youtube') Youtube
-                option(value='radio') Radio
+                            div.form-group
+                                label(for='tone') Tone source     :    
+                                input#tone.form-control(type='text', placeholder='youtube/radio link' name='tone')
 
-            div.form-group
-              label(for='tone') tone:
-              input#tone.form-control(type='text', placeholder='youtube/radio link' name='tone')
-
-            button.btn.btn-primary(type='submit') Update
+                            button.btn.btn-primary(type='submit') Update

@@ -13,6 +13,7 @@ module.exports = function(app) {
             if (req.body.password == 123 && req.body.device == 'CC3B1EA48C984') {
                 res.send(pug.renderFile('views/index.pug', {
                     title: "Test login"
+//                    message: "Input configuration for your clock!"
                 }));
             } else {
                 res.send(403);
@@ -195,8 +196,8 @@ module.exports = function(app) {
                     jsonContent.last_modified = new Date().toJSON();
                     var json = JSON.stringify(jsonContent);
                     fs.writeFile('data.json', json);
-
-                    res.send("All has been changed");
+                    res.redirect('/about.html');
+              //      res.send("All has been changed");
                 });
 
 
