@@ -157,9 +157,10 @@ module.exports = function(app) {
 
         if (req.body.type == 'youtube') {
             jsonContent.play_radio = false;
+
             console.log(req.body.tone);
             if (req.body.tone && req.body.tone != jsonContent.tone) {
-
+                jsonContent.tone = req.body.tone;
                 var filePath = 'staticFolder/alarm.m4a';
                 fs.unlinkSync(filePath, function(err) {
                     if (err) return console.log(err);
