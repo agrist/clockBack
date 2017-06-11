@@ -172,10 +172,11 @@ module.exports = function(app) {
                 }
             });
         }
+        var set = alarm_on== 'on' ? true:false;
         jsonContent.device = device;
         jsonContent.radio = radio;
         jsonContent.alarm_at = alarm_at;
-        jsonContent.alarm_on = alarm_on;
+        jsonContent.alarm_on = set;
         jsonContent.tone = tone;
         jsonContent.play_radio = play_radio;
         jsonContent.last_modified = new Date().toJSON();
