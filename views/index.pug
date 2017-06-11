@@ -1,8 +1,26 @@
+doctype html
 html
-  head
-    title= title
-  body
-    h1= message
-    ul
-      each val in item
-        li= val
+    head
+        style
+            include style.css
+        title= title
+    body
+        h1= message
+        form(method='POST' action='/setall')
+            div.form-group
+                label(for='device') Device:
+                input#name.form-control(type='text', placeholder='device #' name='device')
+
+                label(for='alarm_at') alarm_at:
+                input#alarm_at.form-control(type='time' name='alarm_at')
+
+                label(for='tone') tone:
+                input#tone.form-control(type='text', placeholder='youtube link' name='tone')
+
+                label(for='radio') Password:
+                input#radio.form-control(type='text', placeholder='internet radio' name='radio')
+
+                label(for='alarm_on') Alarm set:
+                input#alarm_on.form-control(type='checkbox' name='alarm_on')
+
+                button.btn.btn-primary(type='submit') Update
