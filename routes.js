@@ -154,8 +154,8 @@ module.exports = function(app) {
         var alarm_at = req.body.alarm_at ? (req.body.alarm_at == jsonContent.alarm_at ? jsonContent.alarm_at : req.body.alarm_at) : jsonContent.alarm_at;
         var alarm_on = req.body.alarm_on ? (req.body.alarm_on == jsonContent.alarm_on ? jsonContent.alarm_on : req.body.alarm_on) : jsonContent.alarm_on;
         var tone = req.body.tone ? (req.body.tone == jsonContent.tone ? jsonContent.tone : req.body.tone) : jsonContent.tone;
-        var play_radio = req.body.radio_on == jsonContent.play_radio ? !jsonContent.play_radio  : jsonContent.play_radio;
-
+      //  var play_radio = req.body.radio_on == jsonContent.play_radio ? !jsonContent.play_radio  : jsonContent.play_radio;
+        var play_radio = req.body.play_radio ? (req.body.play_radio == jsonContent.play_radio ? jsonContent.play_radio : req.body.play_radio) : jsonContent.play_radio;
       console.log(device, radio, alarm_on, alarm_at, tone, play_radio);
         if ( req.body.tone && tone != req.body.tone) {
             var filePath = 'staticFolder/alarm.m4a';
@@ -172,7 +172,7 @@ module.exports = function(app) {
                 }
             });
         }
-        var set = alarm_on== 'on' ? true:false;
+      //  var set = alarm_on== 'on' ? true:false;
         jsonContent.device = device;
         jsonContent.radio = radio;
         jsonContent.alarm_at = alarm_at;
