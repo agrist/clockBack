@@ -165,7 +165,7 @@ module.exports = function(app) {
                     if (err) return console.log(err);
                     console.log('file deleted successfully');
                 });
-                exec("youtube-dl -o 'staticFolder/alarm.m4a' -f bestaudio --audio-format m4a " + tone, function(error, stdout, stderr) {
+                exec("youtube-dl -o 'staticFolder/alarm.m4a' -f bestaudio --audio-format m4a " + req.body.tone, function(error, stdout, stderr) {
                     console.log('stdout: ' + stdout);
                     console.log('stderr: ' + stderr);
                     if (error !== null) {
