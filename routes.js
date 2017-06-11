@@ -9,9 +9,9 @@ module.exports = function(app) {
     var urlParser = bodyParser.urlencoded();
 
 
-  //  app.get('/', function(req, res) {
-  //      res.sendFile(__dirname  + '/staticFolder/index.html');
-  //  });
+    //  app.get('/', function(req, res) {
+    //      res.sendFile(__dirname  + '/staticFolder/index.html');
+    //  });
 
     app.get('/hfile', function(req, res) { // example for specific file filled template
         res.send(pug.renderFile('views/index.pug', {
@@ -93,7 +93,7 @@ module.exports = function(app) {
     app.post('/setradio', urlParser, function(req, res) {
         var device = req.query.device || 'def';
         var radio = req.query.radio || 'http://us3.internet-radio.com:8007/listen.pls&t=.pls'; //'https://www.youtube.com/watch?v=IH8RVvIHB9E';
-    
+
         var content = fs.readFileSync('data.json');
         var jsonContent = JSON.parse(content);
         jsonContent.id = device;
@@ -105,5 +105,36 @@ module.exports = function(app) {
 
         res.send('all ok');
 
+    });
+
+
+    app.post('/setall', urlParser, function(req, res) {
+        var content = fs.readFileSync('data.json');
+        var jsonContent = JSON.parse(content);
+        var device = req.query.device ? (req.query.device == jsonContent.device ? jsonContent.device : req.query.device) : jsonContent.device;
+        var radio = req.query.radio ? (req.query.radio == jsonContent.radio ? jsonContent.radio : req.query.radio) : jsonContent.radio;
+        var alarm_at = req.query.alarm_at ? (req.query.alarm_at == jsonContent.alarm_at ? jsonContent.alarm_at : req.query.alarm_at) : jsonContent.alarm_at;
+        var alarm_on = req.query.alarm_on ? (req.query.alarm_on == jsonContent.alarm_on ? jsonContent.alarm_on : req.query.alarm_on) : jsonContent.alarm_on;
+        var tone = req.query.tone ? (req.query.tone == jsonContent.tone ? jsonContent.tone : req.query.tone) : jsonContent.tone;
+        var play_radio = req.query.play_radio ? (req.query.play_radio == jsonContent.play_radio ? jsonContent.play_radio : req.query.play_radio) : jsonContent.play_radio;
+
+        if (tone != req.query.tone) {
+            var filePath = 'staticFolder/alarm.m4a';
+            fs.unlinkSync(filePath, function(err) {
+                if (err) return console.log(err);
+                console.log('file deleted successfully');
+            });
+            exec("youtube-dl -o 'staticFolder/alarm.m4a' -f bestaudio --audio-format m4a " + youtube_link, function(error, stdout, stderr) {
+                console.log('stdout: ' + stdout);
+                console.log('stderr: ' + stderr);
+                if (error !== null) {
+                    console.log('exec error: ' + error);
+                    res.send(error);
+                }
+            });
+        }
+        jsonContent.last_modified = new Date().toJSON();
+        var json = JSON.stringify(jsonContent);
+        fs.writeFile('data.json', json);
     });
 };
