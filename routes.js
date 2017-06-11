@@ -8,23 +8,22 @@ module.exports = function(app) {
     var jsonParser = bodyParser.json();
     var urlParser = bodyParser.urlencoded();
 
-    app.post('/register',jsonParser, function(req, res) {
-      console.log("Got login call:", req.body);
-      if(req.body.password==123 && req.body.device=='CC3B1EA48C984'){
-        res.send(pug.renderFile('views/index.pug', {
-            title: "Test login"
-        }));
-      }
-      else {
-        res.send(403);
-      }
+    app.post('/register', jsonParser, function(req, res) {
+        console.log("Got login call:", req.body);
+        if (req.body.password == 123 && req.body.device == 'CC3B1EA48C984') {
+            res.send(pug.renderFile('views/index.pug', {
+                title: "Test login"
+            }));
+        } else {
+            res.send(403);
+        }
     });
     //  app.get('/', function(req, res) {
     //      res.sendFile(__dirname  + '/staticFolder/index.html');
     //  });
 
     app.get('/hfile', function(req, res) { // example for specific file filled template
-        if (req.cookies.device == 'CC3B1EA48C984' && req.cookies.password==123) {
+        if (req.cookies.device == 'CC3B1EA48C984' && req.cookies.password == 123) {
             //setting form pug
             res.send(pug.renderFile('views/index.pug', {
                 title: "Test login"
@@ -32,13 +31,15 @@ module.exports = function(app) {
 
             console.log("cookie found!");
         } else {
-          console.log("login good");
-          var list = {classicRock: 'http://us2.internet-radio.com:8046/listen.pls&t=.pls',
-                      Jazz: 'http://us3.internet-radio.com:8007/listen.pls&t=.pls',
-                      Ambient: 'http://uk2.internet-radio.com:31491/listen.pls&t=.pls'};
+            console.log("login good");
+            var list = {
+                classicRock: 'http://us2.internet-radio.com:8046/listen.pls&t=.pls',
+                Jazz: 'http://us3.internet-radio.com:8007/listen.pls&t=.pls',
+                Ambient: 'http://uk2.internet-radio.com:31491/listen.pls&t=.pls'
+            };
 
-          var content = fs.readFileSync('data.json');
-          var jsonContent = JSON.parse(content);
+            var content = fs.readFileSync('data.json');
+            var jsonContent = JSON.parse(content);
             //"login" form pug
             res.send(pug.renderFile('views/login.pug', {
                 title: "Test login",
@@ -149,41 +150,48 @@ module.exports = function(app) {
         var content = fs.readFileSync('data.json');
         var jsonContent = JSON.parse(content);
         console.log("Incoming", req.body);
-        var device = req.body.device ? (req.body.device == jsonContent.device ? jsonContent.device : req.body.device) : jsonContent.device;
-        var radio = req.body.radio ? (req.body.radio == jsonContent.radio ? jsonContent.radio : req.body.radio) : jsonContent.radio;
-        var alarm_at = req.body.alarm_at ? (req.body.alarm_at == jsonContent.alarm_at ? jsonContent.alarm_at : req.body.alarm_at) : jsonContent.alarm_at;
-        var alarm_on = req.body.alarm_on ? (req.body.alarm_on == jsonContent.alarm_on ? jsonContent.alarm_on : req.body.alarm_on) : jsonContent.alarm_on;
-        var tone = req.body.tone ? (req.body.tone == jsonContent.tone ? jsonContent.tone : req.body.tone) : jsonContent.tone;
-      //  var play_radio = req.body.radio_on == jsonContent.play_radio ? !jsonContent.play_radio  : jsonContent.play_radio;
-        var play_radio = req.body.play_radio ? (req.body.play_radio == jsonContent.play_radio ? jsonContent.play_radio : req.body.play_radio) : jsonContent.play_radio;
-      console.log(device, radio, alarm_on, alarm_at, tone, play_radio);
-        if ( req.body.tone && tone != req.body.tone) {
-            var filePath = 'staticFolder/alarm.m4a';
-            fs.unlinkSync(filePath, function(err) {
-                if (err) return console.log(err);
-                console.log('file deleted successfully');
-            });
-            exec("youtube-dl -o 'staticFolder/alarm.m4a' -f bestaudio --audio-format m4a " + tone, function(error, stdout, stderr) {
-                console.log('stdout: ' + stdout);
-                console.log('stderr: ' + stderr);
-                if (error !== null) {
-                    console.log('exec error: ' + error);
-                    res.send(error);
-                }
-            });
+        var alarm_at = req.body.alarm_at && req.body.alarm_at == jsonContent.alarm_at ?  jsonContent.alarm_at  : req.body.alarm_at || jsonContent.alarm_at;
+        var alarm_on = req.body.alarm_on == jsonContent.alarm_on ? jsonContent.alarm_on : !jsonContent.alarm_on;
+console.log("alarm_on", alarm_on);
+console.log("alarm_at", alarm_at);
+    //    var tone = req.body.tone ? (req.body.tone == jsonContent.tone ? jsonContent.tone : req.body.tone) : jsonContent.tone;
+  //      var radio = req.body.radio ? (req.body.radio == jsonContent.radio ? jsonContent.radio : req.body.radio) : jsonContent.radio;
+
+        if (req.body.type == 'youtube') {
+            jsonContent.play_radio = false;
+            if (req.body.tone && tone != req.body.tone) {
+                var filePath = 'staticFolder/alarm.m4a';
+                fs.unlinkSync(filePath, function(err) {
+                    if (err) return console.log(err);
+                    console.log('file deleted successfully');
+                });
+                exec("youtube-dl -o 'staticFolder/alarm.m4a' -f bestaudio --audio-format m4a " + tone, function(error, stdout, stderr) {
+                    console.log('stdout: ' + stdout);
+                    console.log('stderr: ' + stderr);
+                    if (error !== null) {
+                        console.log('exec error: ' + error);
+                        res.send(error);
+                    }
+                });
+            }
+        } else if (req.body.type == 'radio') {
+            jsonContent.play_radio = true;
+            jsonContent.radio = req.body.tone;
+            console.log("jsonContent.play_radio",jsonContent.play_radio);
+            console.log("  jsonContent.radio",  jsonContent.radio);
         }
-      //  var set = alarm_on== 'on' ? true:false;
-        jsonContent.device = device;
-        jsonContent.radio = radio;
+
+    
+      //  jsonContent.radio = radio;
         jsonContent.alarm_at = alarm_at;
         jsonContent.alarm_on = alarm_on;
-        jsonContent.tone = tone;
-        jsonContent.play_radio = play_radio;
+    //    jsonContent.tone = tone;
+      //  jsonContent.play_radio = play_radio;
         jsonContent.last_modified = new Date().toJSON();
         var json = JSON.stringify(jsonContent);
         fs.writeFile('data.json', json);
-        var cookie = {device, password:123};
-        res.send(cookie);
+
+        res.send("All has been changed");
     });
 
 

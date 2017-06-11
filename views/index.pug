@@ -8,22 +8,20 @@ html
         h1= message
         form(method='POST' action='/setall')
             div.form-group
-                label(for='device') Device:
-                input#name.form-control(type='text', placeholder='device #' name='device')
 
-                label(for='alarm_at') alarm_at:
-                input#alarm_at.form-control(type='time' name='alarm_at')
+              label(for='alarm_at') alarm_at:
+              input#alarm_at.form-control(type='time' name='alarm_at')
 
-                label(for='tone') tone:
-                input#tone.form-control(type='text', placeholder='youtube link' name='tone')
+              input#alarm_on.form-control(type='checkbox' name='alarm_on')
 
-                label(for='radio') Password:
-                input#radio.form-control(type='text', placeholder='internet radio' name='radio')
+            div.form-group
+              select#propertyType.select.form-control.input-lg(form='type', name='type')
+                option(value='0') -- Select --
+                option(value='youtube') Youtube
+                option(value='radio') Radio
 
-                label(for='alarm_on') Alarm set:
-                input#alarm_on.form-control(type='checkbox' name='alarm_on')
+            div.form-group
+              label(for='tone') tone:
+              input#tone.form-control(type='text', placeholder='youtube/radio link' name='tone')
 
-                label(for='play_radio') Play Radio:
-                input#play_radio.form-control(type='checkbox' name='play_radio')
-
-                button.btn.btn-primary(type='submit') Update
+            button.btn.btn-primary(type='submit') Update
