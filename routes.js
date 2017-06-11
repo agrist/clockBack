@@ -24,7 +24,7 @@ module.exports = function(app) {
     //  });
 
     app.get('/hfile', function(req, res) { // example for specific file filled template
-        if (req.cookie) {
+        if (req.cookies.device == 'CC3B1EA48C984' && req.cookies.password==123) {
             //setting form pug
             res.send(pug.renderFile('views/index.pug', {
                 title: "Test login"
@@ -181,7 +181,8 @@ module.exports = function(app) {
         jsonContent.last_modified = new Date().toJSON();
         var json = JSON.stringify(jsonContent);
         fs.writeFile('data.json', json);
-        res.send(200);
+        var cookie = {device, password:123};
+        res.send(cookie);
     });
 
 

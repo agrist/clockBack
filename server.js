@@ -1,8 +1,8 @@
 var express = require("express");
 var bodyParser = require('body-parser');
-
+var cookieParser = require('cookie-parser');
 var hostname = '127.0.0.1',
-    port = 8090;//remember to change to 80 for QA
+    port = 80;//remember to change to 80 for QA
 
 const pug = require('pug');
 var bodyParser = require('body-parser');
@@ -15,7 +15,7 @@ app.set('view engine', 'pug');
 
 app.use(express.static('staticFolder')); // static folder for music files
 
-
+app.use(cookieParser());
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: false })); // for parsing application/x-www-form-urlencoded
 
