@@ -163,8 +163,8 @@ module.exports = function(app) {
                 jsonContent.tone = req.body.tone;
                 var filePath = 'staticFolder/alarm.m4a';
                 fs.unlinkSync(filePath, function(err) {
-                    if (err) return console.log(err);
-                    console.log('file deleted successfully');
+                    if (err)  console.log(err);
+                //    console.log('file deleted successfully');
                 });
                 exec("youtube-dl -o 'staticFolder/alarm.m4a' -f bestaudio --audio-format m4a " + req.body.tone, function(error, stdout, stderr) {
                     console.log('stdout: ' + stdout);
