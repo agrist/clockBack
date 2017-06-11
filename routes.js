@@ -150,16 +150,14 @@ module.exports = function(app) {
         var content = fs.readFileSync('data.json');
         var jsonContent = JSON.parse(content);
         console.log("Incoming", req.body);
-        var alarm_at = req.body.alarm_at && req.body.alarm_at == jsonContent.alarm_at ?  jsonContent.alarm_at  : req.body.alarm_at || jsonContent.alarm_at;
+        var alarm_at = req.body.alarm_at && req.body.alarm_at == jsonContent.alarm_at ? jsonContent.alarm_at : req.body.alarm_at || jsonContent.alarm_at;
         var alarm_on = req.body.alarm_on == jsonContent.alarm_on ? jsonContent.alarm_on : !jsonContent.alarm_on;
-console.log("alarm_on", alarm_on);
-console.log("alarm_at", alarm_at);
-    //    var tone = req.body.tone ? (req.body.tone == jsonContent.tone ? jsonContent.tone : req.body.tone) : jsonContent.tone;
-  //      var radio = req.body.radio ? (req.body.radio == jsonContent.radio ? jsonContent.radio : req.body.radio) : jsonContent.radio;
+        console.log("alarm_on", alarm_on);
+        console.log("alarm_at", alarm_at);
 
         if (req.body.type == 'youtube') {
             jsonContent.play_radio = false;
-            if (req.body.tone && tone != req.body.tone) {
+            if (req.body.tone && req.body.tone != req.body.tone) {
                 var filePath = 'staticFolder/alarm.m4a';
                 fs.unlinkSync(filePath, function(err) {
                     if (err) return console.log(err);
@@ -177,16 +175,16 @@ console.log("alarm_at", alarm_at);
         } else if (req.body.type == 'radio') {
             jsonContent.play_radio = true;
             jsonContent.radio = req.body.tone;
-            console.log("jsonContent.play_radio",jsonContent.play_radio);
-            console.log("  jsonContent.radio",  jsonContent.radio);
+            console.log("jsonContent.play_radio", jsonContent.play_radio);
+            console.log("  jsonContent.radio", jsonContent.radio);
         }
 
-    
-      //  jsonContent.radio = radio;
+
+        //  jsonContent.radio = radio;
         jsonContent.alarm_at = alarm_at;
         jsonContent.alarm_on = alarm_on;
-    //    jsonContent.tone = tone;
-      //  jsonContent.play_radio = play_radio;
+        //    jsonContent.tone = tone;
+        //  jsonContent.play_radio = play_radio;
         jsonContent.last_modified = new Date().toJSON();
         var json = JSON.stringify(jsonContent);
         fs.writeFile('data.json', json);
